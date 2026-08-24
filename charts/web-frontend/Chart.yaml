@@ -1,0 +1,7 @@
+apiVersion: v2
+name: web-maintenance
+description: Apex frontend web application
+type: application
+version: 0.1.0        # bump on template changes
+appVersion: "1.0.0"   # bump on app releases (or drive via image.tag)
+

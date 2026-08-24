@@ -1,0 +1,40 @@
+replicaCount: 2
+revisionHistoryLimit: 3
+image:
+  repository: apexcybers/web-frontend
+  tag: "prod-v1.0.1-12"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  className: traefik
+
+  host: "www.klaudkiller.com"
+
+  tls:
+    enabled: true
+    secretName: ""
+
+resources:
+  requests:
+    cpu: 5m
+    memory: 40Mi
+
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+
+  minReplicas: 2
+  maxReplicas: 6
+
+  targetCPUUtilizationPercentage: 70
+
+env: {}

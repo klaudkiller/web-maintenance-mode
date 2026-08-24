@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: {{ include "web-maintenance.fullname" . }}
+
+  labels:
+    {{- include "web-maintenance.labels" . | nindent 4 }}
+
+spec:
+  # Keep only 3 old ReplicaSets
+  revisionHistoryLimit: 3
+
+  replicas: {{ .Values.replicaCount }}
+
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+
+  selector:
+    matchLabels:
+      {{- include "web-maintenance.selectorLabels" . | nindent 6 }}
+
+  template:
+
+    metadata:
+      labels:
+        {{- include "web-maintenance.selectorLabels" . | nindent 8 }}
+
+    spec:
+
+      containers:
+
+        - name: web-maintenance
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+
+          {{- if .Values.env }}
+
+          env:
+
+            {{- range $key, $value := .Values.env }}
+
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+
+            {{- end }}
+
+          {{- end }}
+
+          resources:
+
+            {{- toYaml .Values.resources | nindent 12 }}
