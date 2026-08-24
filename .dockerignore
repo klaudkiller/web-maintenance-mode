@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+npm-debug.log
+
+# Build output
+dist/
+build/
+charts
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+
+.env
+# .env.development

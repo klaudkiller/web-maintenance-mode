@@ -1,0 +1,9 @@
+docker buildx create \
+  --name multiarch \
+  --driver docker-container \
+  --use
+
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t savitoy/web-maintenance:uat-v1.0.1 \
+  --push .
